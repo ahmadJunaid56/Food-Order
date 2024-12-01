@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Food Delivery</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .menu-item {
+      margin: 20px 0;
+    }
+
+    .cart {
+      margin-top: 30px;
+    }
+
+    .cart-items {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Food Delivery Menu</h1>
+
+  <div class="menu">
+    <div class="menu-item">
+      <h2>Pizza</h2>
+      <p>Price: $15</p>
+      <label for="pizza-quantity">Quantity:</label>
+      <input type="number" id="pizza-quantity" value="1" min="1">
+      <button onclick="addToCart('Pizza', 15, document.getElementById('pizza-quantity').value)">Add to Cart</button>
+    </div>
+
+    <div class="menu-item">
+      <h2>Burger</h2>
+      <p>Price: $8</p>
+      <label for="burger-quantity">Quantity:</label>
+      <input type="number" id="burger-quantity" value="1" min="1">
+      <button onclick="addToCart('Burger', 8, document.getElementById('burger-quantity').value)">Add to Cart</button>
+    </div>
+
+    <div class="menu-item">
+      <h2>Pasta</h2>
+      <p>Price: $12</p>
+      <label for="pasta-quantity">Quantity:</label>
+      <input type="number" id="pasta-quantity" value="1" min="1">
+      <button onclick="addToCart('Pasta', 12, document.getElementById('pasta-quantity').value)">Add to Cart</button>
+    </div>
+  </div>
+
+  <div class="cart">
+    <h2>Shopping Cart</h2>
+    <ul id="cart-items-list" class="cart-items">
+      <!-- Items will be added here dynamically -->
+    </ul>
+    <p id="cart-total">Total: $0</p>
+    <button onclick="checkout()">Checkout</button>
+  </div>
+
+  <script>
+    // Initialize the cart variables
+    let cartItems = [];
+    let cartTotal = 0;
+
+    // Function to add items to the cart
+    function addToCart(itemName, itemPrice, quantity) {
+      quantity = parseInt(quantity);  // Convert quantity to integer
+      const totalItemPrice = itemPrice * quantity;
+
+      // Add the item to the cart array
+      cartItems.push({ name: itemName, price: totalItemPrice, quantity: quantity });
+
+      // Update the total price
+      cartTotal += totalItemPrice;
+
+      // Update the cart display
+      updateCartDisplay();
+    }
+
+    // Function to update the cart display
+    function updateCartDisplay() {
+      const cartItemsList = document.getElementById('cart-items-list');
+      cartItemsList.innerHTML = '';  // Clear the cart items list
+
+      // Loop through each item and add it to the display
+      cartItems.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = `${item.quantity} x ${item.name} - $${item.price}`;
+        cartItemsList.appendChild(li);
+      });
+
+      // Update the total price
+      document.getElementById('cart-total').textContent = `Total: $${cartTotal}`;
+    }
+
+    // Function to handle checkout (this would normally involve backend integration)
+    function checkout() {
+      if (cartItems.length === 0) {
+        alert("Your cart is empty!");
+      } else {
+        alert("Thank you for your order! Total: $" + cartTotal);
+        // Reset cart after checkout
+        cartItems = [];
+        cartTotal = 0;
+        updateCartDisplay();
+      }
+    }
+  </script>
+</body>
+
+</html>
